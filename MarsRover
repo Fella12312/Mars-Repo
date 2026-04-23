@@ -568,7 +568,7 @@
   <div class="fade-in">
     <p class="section-label">Watch & Learn</p>
     <h2>MISSION<br>FOOTAGE</h2>
-    <p>Watch stunning footage, documentary clips, and official NASA releases about the Mars rover missions.
+    <p>Watch stunning footage, documentary clips, and official NASA releases about the Mars rover missions. To add your videos, paste a YouTube embed URL into the <code style="color:var(--rust-light); font-size:14px;">src</code> attribute of each <code style="color:var(--rust-light); font-size:14px;">&lt;iframe&gt;</code> below.</p>
   </div>
 
   <div class="videos-grid">
@@ -583,7 +583,7 @@
       </div>
       <span class="video-slot-label">Video 1 — Paste link below</span>
       <!-- EDIT THE src ATTRIBUTE ON THE LINE BELOW -->
-      <!-- <iframe src="https://www.youtube.com/watch?v=OO5CTBBgtXs" allowfullscreen></iframe> -->
+      <!-- <iframe src="https://www.youtube.com/embed/PASTE_VIDEO_ID_HERE" allowfullscreen></iframe> -->
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════
