@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mars Rovers — Exploring the Red Planet</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rust: #C1440E;
+    --rust-dark: #8B2E07;
+    --rust-light: #E8714A;
+    --sand: #D9B88A;
+    --sand-light: #F0DFC0;
+    --dust: #8C7B6B;
+    --sky: #1A0E05;
+    --sky-mid: #2E1A0A;
+    --text: #F5EDE0;
+    --text-muted: #B09A84;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-border: rgba(255,255,255,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--sky);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 70%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 65%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 95%, rgba(255,255,255,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 6vw 8vh;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 120% 60% at 50% 110%, #7A2E0A 0%, transparent 55%),
+      radial-gradient(ellipse 80% 40% at 70% 100%, #C1440E 0%, transparent 40%),
+      linear-gradient(180deg, #05020F 0%, #1A0E05 40%, #3B1A08 80%, #6B2D0A 100%);
+    z-index: 0;
+  }
+
+  /* Mars planet orb */
+  .mars-orb {
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 560px;
+    height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #E8714A, #C1440E 40%, #8B2E07 70%, #4A1500 100%);
+    opacity: 0.55;
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rust-light);
+    margin-bottom: 1.2rem;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 160px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 span {
+    color: var(--rust-light);
+  }
+
+  .hero-desc {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-muted);
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+  }
+
+  .stat-item strong {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--rust-light);
+    line-height: 1;
+  }
+
+  .stat-item span {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 6vw;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rust-light);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 6vw, 80px);
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 2rem;
+  }
+
+  p {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--text-muted);
+    max-width: 680px;
+    margin-bottom: 1.2rem;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rust) 30%, var(--rust) 70%, transparent);
+    opacity: 0.25;
+    margin: 0 6vw;
+  }
+
+  /* ── ROVERS GRID ── */
+  .rovers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5px;
+    margin-top: 3rem;
+    border: 1.5px solid rgba(255,255,255,0.06);
+  }
+
+  .rover-card {
+    padding: 2.5rem 2rem;
+    background: var(--card-bg);
+    border: 0.5px solid var(--card-border);
+    transition: background 0.3s;
+  }
+
+  .rover-card:hover {
+    background: rgba(193, 68, 14, 0.08);
+  }
+
+  .rover-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: rgba(193, 68, 14, 0.25);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .rover-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .rover-status {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .status-active {
+    background: rgba(50, 180, 100, 0.15);
+    color: #6DE09A;
+    border: 0.5px solid rgba(50, 180, 100, 0.3);
+  }
+
+  .status-inactive {
+    background: rgba(140, 123, 107, 0.15);
+    color: var(--dust);
+    border: 0.5px solid rgba(140, 123, 107, 0.3);
+  }
+
+  .rover-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: none;
+  }
+
+  /* ── VIDEO SECTION ── */
+  .videos-section { background: var(--sky-mid); }
+
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .video-slot {
+    position: relative;
+    background: rgba(255,255,255,0.03);
+    border: 1px dashed rgba(193, 68, 14, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    cursor: pointer;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .video-slot iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .video-slot-label {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dust);
+  }
+
+  .video-slot-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(193, 68, 14, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-slot-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--rust-light);
+    margin-left: 3px;
+  }
+
+  .video-caption {
+    margin-top: 0.75rem;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* ── FACTS BAND ── */
+  .facts-band {
+    background: rgba(193, 68, 14, 0.08);
+    border-top: 0.5px solid rgba(193, 68, 14, 0.2);
+    border-bottom: 0.5px solid rgba(193, 68, 14, 0.2);
+    padding: 60px 6vw;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: space-between;
+  }
+
+  .fact {
+    flex: 1;
+    min-width: 160px;
+    text-align: center;
+  }
+
+  .fact-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: var(--rust-light);
+    line-height: 1;
+    display: block;
+  }
+
+  .fact-label {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 6px;
+    display: block;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem 6vw;
+    border-top: 0.5px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: var(--dust);
+    margin: 0;
+    max-width: none;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--rust-light);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── SCROLL FADE ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1.5rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: linear-gradient(180deg, rgba(5,2,15,0.8) 0%, transparent 100%);
+    backdrop-filter: blur(4px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+    color: var(--text);
+  }
+
+  .nav-logo span { color: var(--rust-light); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  nav ul a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--rust-light); }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    nav ul { display: none; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">MARS <span>ROVERS</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#rovers">Rovers</a></li>
+    <li><a href="#videos">Videos</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="mars-orb"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">NASA / JPL · The Red Planet</p>
+    <h1>EXPLORING<br><span>MARS</span></h1>
+    <p class="hero-desc">
+      Since 1997, robotic explorers have traversed the Martian surface — drilling into ancient rock, sampling alien soil, and searching for signs of life beyond Earth.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <strong>5</strong>
+        <span>Rovers Sent</span>
+      </div>
+      <div class="stat-item">
+        <strong>28km+</strong>
+        <span>Distance Driven</span>
+      </div>
+      <div class="stat-item">
+        <strong>140M mi</strong>
+        <span>From Earth</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="fade-in">
+    <p class="section-label">The Mission</p>
+    <h2>WHY MARS?</h2>
+    <p>
+      Mars is the most Earth-like planet in our solar system. Billions of years ago, it had liquid water, a thicker atmosphere, and conditions that may have supported microbial life. Today, its thin, cold atmosphere and barren deserts hold clues to the history of planetary evolution — and perhaps to life itself.
+    </p>
+    <p>
+      NASA's Mars rover program has been one of the most ambitious scientific endeavors in human history. Each rover is a rolling laboratory, equipped with cameras, spectrometers, drills, and weather stations — conducting experiments that would require hundreds of scientists working simultaneously on Earth.
+    </p>
+    <p>
+      The data gathered by these rovers has reshaped our understanding of Mars: we've confirmed ancient lake beds, detected organic molecules, found seasonal methane spikes, and captured the first powered flight on another planet. Every drive is a discovery.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── FACTS BAND ── -->
+<div class="facts-band">
+  <div class="fact fade-in">
+    <span class="fact-num">-60°C</span>
+    <span class="fact-label">Avg Surface Temp</span>
+  </div>
+  <div class="fact fade-in">
+    <span class="fact-num">687</span>
+    <span class="fact-label">Days in Martian Year</span>
+  </div>
+  <div class="fact fade-in">
+    <span class="fact-num">37%</span>
+    <span class="fact-label">Of Earth's Gravity</span>
+  </div>
+  <div class="fact fade-in">
+    <span class="fact-num">20 min</span>
+    <span class="fact-label">Signal Delay (avg)</span>
+  </div>
+  <div class="fact fade-in">
+    <span class="fact-num">95%</span>
+    <span class="fact-label">CO₂ Atmosphere</span>
+  </div>
+</div>
+
+<!-- ── ROVERS ── -->
+<section id="rovers">
+  <div class="fade-in">
+    <p class="section-label">The Explorers</p>
+    <h2>EVERY ROVER,<br>EVERY MISSION</h2>
+    <p>Five rovers have successfully landed on Mars. Each generation more capable than the last — from the pioneering Sojourner to the car-sized Perseverance still roaming today.</p>
+  </div>
+
+  <div class="rovers-grid">
+    <div class="rover-card fade-in">
+      <div class="rover-year">1997</div>
+      <div class="rover-name">Sojourner</div>
+      <span class="rover-status status-inactive">Mission Complete</span>
+      <p class="rover-desc">The first rover on Mars, Sojourner operated for 83 Martian days — far beyond its planned 7-day mission. Weighing just 10.6 kg, it proved that robotic rovers could successfully traverse alien terrain. It analysed rocks with an alpha proton X-ray spectrometer, revolutionising our understanding of Martian geology.</p>
+    </div>
+
+    <div class="rover-card fade-in">
+      <div class="rover-year">2004</div>
+      <div class="rover-name">Spirit</div>
+      <span class="rover-status status-inactive">Mission Complete</span>
+      <p class="rover-desc">Spirit landed in Gusev Crater, originally believed to be a former lake bed. While Gusev yielded few aqueous minerals at first, Spirit's climb up the Columbia Hills uncovered compelling evidence of ancient water activity. Spirit operated for over 2,200 Martian days before becoming stuck in soft soil in 2009.</p>
+    </div>
+
+    <div class="rover-card fade-in">
+      <div class="rover-year">2004</div>
+      <div class="rover-name">Opportunity</div>
+      <span class="rover-status status-inactive">Mission Complete</span>
+      <p class="rover-desc">Opportunity landed in Eagle Crater and quickly found hematite "blueberries" — mineral spheres formed in liquid water. It then drove for 45 km across Meridiani Planum over 15 years, outlasting its 90-day mission by a factor of 60. A global dust storm in 2018 finally ended its extraordinary run.</p>
+    </div>
+
+    <div class="rover-card fade-in">
+      <div class="rover-year">2012</div>
+      <div class="rover-name">Curiosity</div>
+      <span class="rover-status status-active">Active</span>
+      <p class="rover-desc">The size of a car, Curiosity redefined what a Mars rover could do. Landing via a sky crane in Gale Crater, it confirmed that Mars once had a habitable environment. It detected organic molecules, measured radiation levels for future astronauts, and is still exploring Mount Sharp more than a decade after landing.</p>
+    </div>
+
+    <div class="rover-card fade-in">
+      <div class="rover-year">2021</div>
+      <div class="rover-name">Perseverance</div>
+      <span class="rover-status status-active">Active</span>
+      <p class="rover-desc">NASA's most advanced rover, Perseverance landed in Jezero Crater — an ancient river delta. It collected rock samples for future return to Earth, deployed the Ingenuity helicopter (the first powered aircraft on another planet), and produced breathable oxygen from the Martian atmosphere using the MOXIE experiment.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── VIDEOS ── -->
+<section id="videos" class="videos-section">
+  <div class="fade-in">
+    <p class="section-label">Watch & Learn</p>
+    <h2>MISSION<br>FOOTAGE</h2>
+    <p>Watch stunning footage, documentary clips, and official NASA releases about the Mars rover missions.
+  </div>
+
+  <div class="videos-grid">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         VIDEO 1 — Replace the src URL with your YouTube embed link
+         Example: src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+         ═══════════════════════════════════════════════════════════ -->
+    <div class="video-slot fade-in" id="video-slot-1">
+      <div class="video-slot-icon">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <span class="video-slot-label">Video 1 — Paste link below</span>
+      <!-- EDIT THE src ATTRIBUTE ON THE LINE BELOW -->
+      <!-- <iframe src="https://www.youtube.com/watch?v=OO5CTBBgtXs" allowfullscreen></iframe> -->
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         VIDEO 2 — Replace the src URL with your YouTube embed link
+         ═══════════════════════════════════════════════════════════ -->
+    <div class="video-slot fade-in" id="video-slot-2">
+      <div class="video-slot-icon">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <span class="video-slot-label">Video 2 — Paste link below</span>
+      <!-- EDIT THE src ATTRIBUTE ON THE LINE BELOW -->
+      <!-- <iframe src="https://www.youtube.com/embed/PASTE_VIDEO_ID_HERE" allowfullscreen></iframe> -->
+    </div>
+
+  </div>
+
+
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">MARS ROVERS</div>
+  <p>Information sourced from NASA/JPL. Built with curiosity.</p>
+  <p style="font-size:12px;">Imagery &amp; data: NASA, ESA</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
