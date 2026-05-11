@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NASA Mars Missions — The Complete Record</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=Syne+Mono&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #020B18;
+  --bg2: #050F1F;
+  --grid: rgba(0, 180, 255, 0.04);
+  --blue: #00B4FF;
+  --blue-dim: rgba(0, 180, 255, 0.15);
+  --blue-glow: rgba(0, 180, 255, 0.5);
+  --orange: #FF6A1A;
+  --orange-dim: rgba(255, 106, 26, 0.12);
+  --green: #00FF9C;
+  --green-dim: rgba(0, 255, 156, 0.1);
+  --red: #FF3C3C;
+  --red-dim: rgba(255, 60, 60, 0.1);
+  --text: #E8F4FF;
+  --text-dim: #5A7A99;
+  --text-mid: #8AAABB;
+  --border: rgba(0, 180, 255, 0.12);
+  --mono: 'Share Tech Mono', monospace;
+  --display: 'Syne', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--display);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(0,60,120,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 70%, rgba(120,40,0,0.2) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 3rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(2, 11, 24, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-id {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--blue);
+  letter-spacing: 0.15em;
+}
+
+.nav-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text);
+}
+
+.nav-status {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-status::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 3rem 4rem;
+  overflow: hidden;
+}
+
+.hero-corner {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.hero-corner.tl { top: 80px; left: 3rem; }
+.hero-corner.tr { top: 80px; right: 3rem; text-align: right; }
+.hero-corner.bl { bottom: 2rem; left: 3rem; }
+.hero-corner.br { bottom: 2rem; right: 3rem; text-align: right; }
+
+.crosshair {
+  position: absolute;
+  width: 20px; height: 20px;
+  pointer-events: none;
+}
+.crosshair::before, .crosshair::after {
+  content: '';
+  position: absolute;
+  background: var(--blue);
+  opacity: 0.4;
+}
+.crosshair::before { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+.crosshair::after  { height: 1px; width: 100%; top: 50%; transform: translateY(-50%); }
+
+.ch1 { top: 100px; left: 48px; }
+.ch2 { top: 100px; right: 48px; }
+.ch3 { bottom: 40px; left: 48px; }
+.ch4 { bottom: 40px; right: 48px; }
+
+.hero-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--orange);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-label::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--orange);
+}
+
+h1 {
+  font-family: var(--display);
+  font-size: clamp(52px, 10vw, 130px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+h1 .accent {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--blue);
+}
+
+.hero-sub {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  max-width: 500px;
+  margin-bottom: 3rem;
+}
+
+.hero-data-row {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.data-cell {
+  border-left: 2px solid var(--blue);
+  padding-left: 1rem;
+}
+
+.data-cell .val {
+  font-family: var(--mono);
+  font-size: 28px;
+  color: var(--blue);
+  display: block;
+  line-height: 1;
+}
+
+.data-cell .key {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 4px;
+  display: block;
+}
+
+section {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 3rem;
+}
+
+.sec-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sec-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+}
+
+h2 {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+h2 span { color: var(--blue); }
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--blue) 10%, var(--blue) 90%, transparent);
+  opacity: 0.3;
+}
+
+.mission-entry {
+  position: relative;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.mission-entry:last-child { border-bottom: none; }
+
+.mission-entry::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 2.5rem;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--blue);
+  background: var(--bg);
+  transform: translateX(-3.5px);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.mission-entry:hover::before {
+  background: var(--blue);
+  box-shadow: 0 0 12px var(--blue-glow);
+}
+
+.mission-header {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 2rem;
+  align-items: start;
+  padding: 2rem 1rem 2rem 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mission-year {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  padding-top: 4px;
+}
+
+.mission-name {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.mission-type {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+}
+
+.mission-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+  white-space: nowrap;
+  align-self: start;
+  margin-top: 4px;
+}
+
+.badge-success { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,255,156,0.2); }
+.badge-partial  { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(255,106,26,0.2); }
+.badge-failure  { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,60,60,0.2); }
+.badge-active   { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(0,180,255,0.25); animation: pulse-border 2s ease-in-out infinite; }
+
+@keyframes pulse-border {
+  0%, 100% { border-color: rgba(0,180,255,0.25); }
+  50% { border-color: rgba(0,180,255,0.6); }
+}
+
+.mission-body {
+  display: none;
+  padding: 0 1rem 2rem 0;
+  grid-column: 1 / -1;
+}
+
+.mission-body.open { display: block; }
+
+.mission-body p {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text-mid);
+  max-width: 700px;
+  margin-bottom: 1.5rem;
+}
+
+.mission-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.spec-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 2px;
+}
+
+.spec-tag span { color: var(--text); }
+
+.stats-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0;
+}
+
+.stat-block {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-block:last-child { border-right: none; }
+
+.stat-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), transparent);
+}
+
+.stat-num {
+  font-family: var(--mono);
+  font-size: 42px;
+  color: var(--blue);
+  display: block;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-num.orange { color: var(--orange); }
+.stat-num.green  { color: var(--green); }
+.stat-num.red    { color: var(--red); }
+
+.stat-key {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.eras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.era-card {
+  background: var(--bg);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.era-card:hover { background: var(--bg2); }
+
+.era-card::after {
+  content: attr(data-era);
+  position: absolute;
+  bottom: -10px; right: 10px;
+  font-family: var(--mono);
+  font-size: 80px;
+  color: rgba(0,180,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.era-period {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--orange);
+  margin-bottom: 1rem;
+}
+
+.era-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.era-desc {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text-mid);
+}
+
+.future-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.future-card {
+  background: var(--bg);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.future-card:hover { background: var(--bg2); }
+.future-card.full { grid-column: 1 / -1; }
+
+.future-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.future-tag::before { content: ''; width: 20px; height: 1px; background: var(--blue); }
+
+.future-name {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.future-desc {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text-mid);
+}
+
+.future-year {
+  position: absolute;
+  bottom: 1.5rem; right: 2rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  padding: 3rem;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+
+.footer-left {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+.footer-mid {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  text-align: center;
+}
+
+.footer-mid span { color: var(--blue); }
+
+.footer-right {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+  line-height: 1.8;
+}
+
+.expand-indicator {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--text-dim);
+  transition: transform 0.3s, color 0.2s;
+  line-height: 1;
+}
+
+.mission-entry.open .expand-indicator {
+  transform: rotate(45deg);
+  color: var(--blue);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+
+.hr {
+  height: 1px;
+  background: var(--border);
+  margin: 0 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── QUIZ ── */
+.quiz-section { background: var(--bg2); border-top: 1px solid var(--border); }
+
+.quiz-wrapper { max-width: 760px; }
+
+.quiz-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--border);
+  background: rgba(0,180,255,0.03);
+}
+
+.quiz-hud-item { text-align: center; }
+
+.quiz-hud-val {
+  font-family: var(--mono);
+  font-size: 28px;
+  color: var(--blue);
+  display: block;
+  line-height: 1;
+}
+
+.quiz-hud-val.correct { color: var(--green); }
+.quiz-hud-val.wrong   { color: var(--red); }
+
+.quiz-hud-key {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 4px;
+  display: block;
+}
+
+.quiz-progress-bar {
+  height: 2px;
+  background: rgba(0,180,255,0.1);
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--blue);
+  box-shadow: 0 0 8px var(--blue-glow);
+  transition: width 0.4s ease;
+}
+
+.question-block { display: none; }
+.question-block.active { display: block; }
+
+.question-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+
+.question-text {
+  font-family: var(--display);
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 2rem;
+}
+
+.answers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.answer-btn {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-mid);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  line-height: 1.5;
+  border-radius: 2px;
+}
+
+.answer-btn:hover:not(:disabled) {
+  border-color: var(--blue);
+  background: var(--blue-dim);
+  color: var(--text);
+}
+
+.answer-btn.correct-ans {
+  border-color: var(--green);
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.answer-btn.wrong-ans {
+  border-color: var(--red);
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.answer-btn:disabled { cursor: default; }
+
+.answer-btn .ans-letter {
+  display: inline-block;
+  width: 20px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-right: 6px;
+}
+
+.answer-btn.correct-ans .ans-letter { color: var(--green); }
+.answer-btn.wrong-ans .ans-letter   { color: var(--red); }
+
+.feedback-box {
+  min-height: 52px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-mid);
+  padding: 1rem 1.25rem;
+  border-left: 2px solid transparent;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.3s;
+}
+
+.feedback-box.show-correct { border-color: var(--green); color: var(--green); }
+.feedback-box.show-wrong   { border-color: var(--red);   color: var(--text-mid); }
+
+.quiz-next-btn {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--blue);
+  border: none;
+  padding: 0.75rem 2rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  display: none;
+}
+
+.quiz-next-btn.visible { display: inline-block; }
+.quiz-next-btn:hover { background: #33c6ff; box-shadow: 0 0 16px var(--blue-glow); }
+
+.quiz-results {
+  display: none;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.quiz-results.show { display: block; }
+
+.results-score {
+  font-family: var(--mono);
+  font-size: 80px;
+  color: var(--blue);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.results-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+}
+
+.results-msg {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+.quiz-restart-btn {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--orange);
+  border: none;
+  padding: 0.75rem 2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.quiz-restart-btn:hover { background: #ff8c44; }
+
+.quiz-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.quiz-tab {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px;
+}
+
+.quiz-tab:hover { color: var(--text); }
+
+.quiz-tab.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+.quiz-tab-panel { display: none; }
+.quiz-tab-panel.active { display: block; }
+
+.history-empty {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 3rem 0;
+  text-align: center;
+  border: 1px dashed var(--border);
+}
+
+.history-summary {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+}
+
+.history-stat {
+  flex: 1;
+  padding: 1.25rem 1.5rem;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+
+.history-stat:last-child { border-right: none; }
+
+.history-stat-val {
+  font-family: var(--mono);
+  font-size: 28px;
+  color: var(--blue);
+  display: block;
+  line-height: 1;
+}
+
+.history-stat-key {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 4px;
+  display: block;
+}
+
+.history-table { width: 100%; border-collapse: collapse; }
+
+.history-table th {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,180,255,0.03);
+}
+
+.history-table td {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-mid);
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(0,180,255,0.06);
+}
+
+.history-table tr:last-child td { border-bottom: none; }
+.history-table tr:hover td { background: rgba(0,180,255,0.03); }
+.history-table td.score-val { color: var(--blue); font-size: 15px; }
+
+.pct-bar-wrap { display: flex; align-items: center; gap: 10px; }
+.pct-bar { flex: 1; height: 4px; background: rgba(0,180,255,0.1); border-radius: 2px; overflow: hidden; }
+.pct-bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
+
+.grade-s { color: var(--green); }
+.grade-a { color: var(--blue); }
+.grade-b { color: var(--text); }
+.grade-c { color: var(--orange); }
+.grade-f { color: var(--red); }
+
+.history-clear-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: none;
+  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.history-clear-btn:hover { color: var(--red); border-color: var(--red); }
+
+@media (max-width: 768px) {
+  nav { padding: 0 1.5rem; }
+  .nav-id, .nav-status { display: none; }
+  section { padding: 4rem 1.5rem; }
+  .mission-header { grid-template-columns: 70px 1fr; }
+  .mission-badge { display: none; }
+  .future-grid { grid-template-columns: 1fr; }
+  footer { grid-template-columns: 1fr; text-align: center; }
+  .footer-right { text-align: center; }
+  h1 { font-size: clamp(44px, 12vw, 90px); }
+  .answers-grid { grid-template-columns: 1fr; }
+  .history-summary { flex-wrap: wrap; }
+  .history-stat { min-width: 50%; border-bottom: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<nav>
+  <div class="nav-id">SYS-ID: NASA/JPL-MARS-OPS</div>
+  <div class="nav-title">MARS MISSION ARCHIVE</div>
+  <div class="nav-status">UPLINK ACTIVE</div>
+</nav>
+
+<div class="hero">
+  <div class="crosshair ch1"></div>
+  <div class="crosshair ch2"></div>
+  <div class="crosshair ch3"></div>
+  <div class="crosshair ch4"></div>
+
+  <div class="hero-corner tl">LAT: 4.5895°N<br>LON: 137.4417°E</div>
+  <div class="hero-corner tr">MISSION CONTROL<br>JPL, PASADENA CA</div>
+  <div class="hero-corner bl">EST. 1958 // NASA</div>
+  <div class="hero-corner br">DECLASSIFIED: PUBLIC</div>
+
+  <div class="hero-label">PLANETARY SCIENCE DIVISION — MARS EXPLORATION PROGRAM</div>
+
+  <h1>NASA<br><span class="accent">MARS</span><br>MISSIONS</h1>
+
+  <p class="hero-sub">
+    A complete record of every spacecraft NASA has sent to the Red Planet —
+    from the first failed attempts in 1964 to the active rovers and orbiters
+    operating today. Six decades of exploration.
+  </p>
+
+  <div class="hero-data-row">
+    <div class="data-cell">
+      <span class="val">50+</span>
+      <span class="key">Total Attempts (All Nations)</span>
+    </div>
+    <div class="data-cell">
+      <span class="val">26</span>
+      <span class="key">NASA Missions</span>
+    </div>
+    <div class="data-cell">
+      <span class="val">1965</span>
+      <span class="key">First Mars Flyby (Mariner 4)</span>
+    </div>
+    <div class="data-cell">
+      <span class="val">3</span>
+      <span class="key">Active Missions (2025)</span>
+    </div>
+  </div>
+</div>
+
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-block reveal">
+      <span class="stat-num">17</span>
+      <span class="stat-key">Successful NASA Missions</span>
+    </div>
+    <div class="stat-block reveal">
+      <span class="stat-num orange">5</span>
+      <span class="stat-key">Surface Rovers</span>
+    </div>
+    <div class="stat-block reveal">
+      <span class="stat-num green">2</span>
+      <span class="stat-key">Active Rovers Today</span>
+    </div>
+    <div class="stat-block reveal">
+      <span class="stat-num">7</span>
+      <span class="stat-key">Successful Orbiters</span>
+    </div>
+    <div class="stat-block reveal">
+      <span class="stat-num red">9</span>
+      <span class="stat-key">Failed Missions</span>
+    </div>
+    <div class="stat-block reveal">
+      <span class="stat-num orange">60</span>
+      <span class="stat-key">Years of Exploration</span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-header reveal">
+    <span class="sec-num">01</span>
+    <h2>ERAS OF <span>EXPLORATION</span></h2>
+  </div>
+
+  <div class="eras-grid">
+    <div class="era-card reveal" data-era="60s">
+      <div class="era-period">1964 – 1971</div>
+      <div class="era-title">The Mariner Era</div>
+      <p class="era-desc">NASA's earliest Mars missions used the Mariner spacecraft to conduct flybys and orbital surveys. Mariner 4 transmitted the first close-up images of Mars in 1965 — 21 grainy frames that revealed a barren, cratered world and shattered hopes of a life-rich planet. Mariner 9 became the first spacecraft to orbit another planet.</p>
+    </div>
+    <div class="era-card reveal" data-era="70s">
+      <div class="era-period">1975 – 1980</div>
+      <div class="era-title">The Viking Era</div>
+      <p class="era-desc">Viking 1 and Viking 2 each consisted of an orbiter and a lander. They were the first spacecraft to successfully land on Mars and return data from the surface. Their biology experiments searched for life — the results remain debated to this day. Viking 1's lander operated for over 6 years, a record at the time.</p>
+    </div>
+    <div class="era-card reveal" data-era="90s">
+      <div class="era-period">1992 – 2001</div>
+      <div class="era-title">Reconnection & Rovers</div>
+      <p class="era-desc">After a 17-year gap following Viking, NASA returned with Mars Observer (lost before arrival), Mars Global Surveyor (a landmark success), and Mars Pathfinder — which deployed Sojourner, the first Mars rover. This era also saw the catastrophic loss of the Mars Climate Orbiter due to a unit-conversion error.</p>
+    </div>
+    <div class="era-card reveal" data-era="00s">
+      <div class="era-period">2001 – 2013</div>
+      <div class="era-title">The Golden Age</div>
+      <p class="era-desc">NASA's most prolific period at Mars. Mars Odyssey (still operating), the MER rovers Spirit and Opportunity, Mars Reconnaissance Orbiter, and the Phoenix lander all launched during this window. Opportunity drove for 45 km over 15 years. MRO's HiRISE camera can resolve objects as small as a dinner table from orbit.</p>
+    </div>
+    <div class="era-card reveal" data-era="now">
+      <div class="era-period">2013 – Present</div>
+      <div class="era-title">Science & Sample Return</div>
+      <p class="era-desc">MAVEN studies the Martian atmosphere, InSight listened to Marsquakes, and Perseverance is collecting rock cores for eventual return to Earth — humanity's most ambitious interplanetary sample collection campaign. The Mars Sample Return mission will attempt to bring these samples home in the 2030s.</p>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section>
+  <div class="sec-header reveal">
+    <span class="sec-num">02</span>
+    <h2>MISSION <span>LOG</span></h2>
+  </div>
+
+  <div class="timeline">
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">1964</div>
+        <div class="mission-info">
+          <div class="mission-name">Mariner 3 & 4</div>
+          <div class="mission-type">FLYBY SPACECRAFT</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-partial">Partial</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>Mariner 3 was lost when its launch shroud failed to jettison. Mariner 4 succeeded, becoming the first spacecraft to fly past Mars and return images. Its 21 photographs — transmitted over 8.5 hours at 8.3 bits per second — showed a cratered, Moon-like surface and an atmosphere far thinner than expected. The images shattered the popular image of Mars as a habitable world.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Closest Approach: <span>9,846 km</span></span>
+          <span class="spec-tag">Images Returned: <span>21</span></span>
+          <span class="spec-tag">Launch Vehicle: <span>Atlas Agena-D</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">1969</div>
+        <div class="mission-info">
+          <div class="mission-name">Mariner 6 & 7</div>
+          <div class="mission-type">FLYBY SPACECRAFT</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-success">Success</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>Mariner 6 and 7 flew past Mars within days of each other, returning 201 images between them. They studied the Martian atmosphere and surface composition, finding carbon dioxide ice at the south polar cap. The missions confirmed Mars had a thin, cold atmosphere and no magnetic field, further dampening hopes for surface life.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Images Returned: <span>201</span></span>
+          <span class="spec-tag">Flyby Speed: <span>~3.3 km/s</span></span>
+          <span class="spec-tag">South Polar Cap: <span>CO₂ Ice Confirmed</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">1971</div>
+        <div class="mission-info">
+          <div class="mission-name">Mariner 9</div>
+          <div class="mission-type">ORBITER</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-success">Success</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>Mariner 9 became the first spacecraft ever to orbit another planet, arriving in November 1971 in the midst of a planet-wide dust storm. It waited for the storm to clear, then mapped 85% of the Martian surface. It revealed Olympus Mons, Valles Marineris, and river channels suggesting ancient flowing water.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Images: <span>7,329</span></span>
+          <span class="spec-tag">Surface Mapped: <span>85%</span></span>
+          <span class="spec-tag">Orbital Period: <span>~12 hours</span></span>
+          <span class="spec-tag">Discoveries: <span>Olympus Mons, Valles Marineris</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">1975</div>
+        <div class="mission-info">
+          <div class="mission-name">Viking 1 & 2</div>
+          <div class="mission-type">ORBITER + LANDER</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-success">Success</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>The Viking program was NASA's most ambitious Mars effort of the 20th century. Viking 1 landed on July 20, 1976 — the 7th anniversary of Apollo 11 — becoming the first spacecraft to successfully operate on the Martian surface. Both landers conducted biology experiments searching for signs of life; the results have never been fully explained. Viking 1's lander operated for 6 years and 116 days.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Viking 1 Landing: <span>July 20, 1976</span></span>
+          <span class="spec-tag">Viking 2 Landing: <span>September 3, 1976</span></span>
+          <span class="spec-tag">Biology Experiments: <span>4 (results inconclusive)</span></span>
+          <span class="spec-tag">Total Images: <span>~55,000</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">1992</div>
+        <div class="mission-info">
+          <div class="mission-name">Mars Observer</div>
+          <div class="mission-type">ORBITER</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-failure">Failed</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>Mars Observer was NASA's first Mars mission in 17 years. Contact was lost on August 21, 1993, just three days before it was due to enter orbit. A review board concluded a rupture likely occurred in the fuel pressurization system, sending the spacecraft into an uncontrolled spin. The $813 million loss triggered a major shift toward NASA's "faster, better, cheaper" mission philosophy.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Cost: <span>$813 million</span></span>
+          <span class="spec-tag">Contact Lost: <span>Aug 21, 1993</span></span>
+          <span class="spec-tag">Cause: <span>Fuel system rupture (probable)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">1996</div>
+        <div class="mission-info">
+          <div class="mission-name">Mars Global Surveyor</div>
+          <div class="mission-type">ORBITER</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-success">Success</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>One of the most successful interplanetary missions ever flown. MGS operated for nearly 10 years, mapping the entire planet, measuring its magnetic field, tracking dust storms, and imaging surface changes over time. Its camera captured evidence of recent gully erosion possibly carved by liquid water. MGS returned more data about Mars than all previous missions combined.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Operational Life: <span>~10 years</span></span>
+          <span class="spec-tag">Images: <span>~240,000</span></span>
+          <span class="spec-tag">Key Finding: <span>Recent gullies (possible water)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">1996</div>
+        <div class="mission-info">
+          <div class="mission-name">Mars Pathfinder + Sojourner</div>
+          <div class="mission-type">LANDER + ROVER</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-success">Success</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>Mars Pathfinder landed using a novel airbag system on July 4, 1997, and deployed Sojourner — the first rover on Mars. Though designed for a 7-day mission, Sojourner operated for 83 sols. It analysed 16 rocks and took 550 images. The mission's live webcam drove unprecedented public interest, receiving 47 million internet hits on its first day.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Landing: <span>July 4, 1997</span></span>
+          <span class="spec-tag">Rover Operational: <span>83 sols</span></span>
+          <span class="spec-tag">Rocks Analysed: <span>16</span></span>
+          <span class="spec-tag">Cost: <span>$265 million</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">1998</div>
+        <div class="mission-info">
+          <div class="mission-name">Mars Climate Orbiter</div>
+          <div class="mission-type">ORBITER</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-failure">Failed</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>One of spaceflight's most embarrassing losses. MCO was destroyed when it entered the Martian atmosphere at the wrong angle because one engineering team used metric units while another used imperial units for thruster data. The spacecraft entered the atmosphere 100 km too low and disintegrated. The $327 million mission lasted less than 10 months.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Cost: <span>$327 million</span></span>
+          <span class="spec-tag">Cause: <span>Metric/imperial unit mismatch</span></span>
+          <span class="spec-tag">Lost: <span>September 23, 1999</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">2001</div>
+        <div class="mission-info">
+          <div class="mission-name">Mars Odyssey</div>
+          <div class="mission-type">ORBITER — ACTIVE</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-active">Active</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>Mars Odyssey is the longest-operating spacecraft ever sent to Mars. Launched in April 2001 and still operational today, it has mapped hydrogen — a proxy for water ice — across the entire planet, detected thermal signatures of minerals, and served as a critical communications relay for surface missions. Its THEMIS camera has returned over 1 million images.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Launch: <span>April 7, 2001</span></span>
+          <span class="spec-tag">Status: <span>Active (2025)</span></span>
+          <span class="spec-tag">Key Discovery: <span>Hydrogen/ice distribution</span></span>
+          <span class="spec-tag">Role: <span>Relay for surface missions</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">2003</div>
+        <div class="mission-info">
+          <div class="mission-name">Spirit & Opportunity (MER)</div>
+          <div class="mission-type">ROVERS</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-success">Success</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>The Mars Exploration Rovers were designed for 90-day missions. Spirit survived 2,208 sols; Opportunity drove 45.16 km over 5,498 sols. Together they confirmed Mars once had liquid water on its surface. Opportunity found hematite "blueberries" formed in standing water. Spirit discovered silica-rich soil suggesting hydrothermal activity.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Spirit Operated: <span>2,208 sols</span></span>
+          <span class="spec-tag">Opportunity Drove: <span>45.16 km</span></span>
+          <span class="spec-tag">Opportunity Operated: <span>5,498 sols</span></span>
+          <span class="spec-tag">Key Finding: <span>Confirmed ancient liquid water</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">2005</div>
+        <div class="mission-info">
+          <div class="mission-name">Mars Reconnaissance Orbiter</div>
+          <div class="mission-type">ORBITER — ACTIVE</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-active">Active</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>MRO is the most powerful remote sensing spacecraft ever sent to another planet. Its HiRISE camera captures surface details as small as 25 cm from 300 km altitude. CRISM has mapped mineral deposits across Mars, and SHARAD has used radar to peer beneath the surface. MRO has returned more data than all previous interplanetary missions combined.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Launch: <span>August 12, 2005</span></span>
+          <span class="spec-tag">HiRISE Resolution: <span>~25 cm/pixel</span></span>
+          <span class="spec-tag">Data Returned: <span>>450 terabits</span></span>
+          <span class="spec-tag">Status: <span>Active (2025)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">2007</div>
+        <div class="mission-info">
+          <div class="mission-name">Phoenix Mars Lander</div>
+          <div class="mission-type">LANDER</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-success">Success</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>Phoenix landed in the arctic region of Mars to study the history of water in the soil. Its robotic arm excavated trenches and delivered soil samples to onboard instruments. Phoenix directly confirmed the presence of water ice just below the Martian surface — watching it sublimate in sunlight. It also discovered perchlorate salts in the soil.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Landing Site: <span>68.22°N (Arctic)</span></span>
+          <span class="spec-tag">Operated: <span>157 sols</span></span>
+          <span class="spec-tag">Confirmed: <span>Subsurface water ice</span></span>
+          <span class="spec-tag">Found: <span>Perchlorate salts</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">2011</div>
+        <div class="mission-info">
+          <div class="mission-name">Curiosity (MSL)</div>
+          <div class="mission-type">ROVER — ACTIVE</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-active">Active</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>The Mars Science Laboratory mission delivered Curiosity — the size of a car — to Gale Crater using a revolutionary sky crane landing system. Curiosity confirmed that Gale Crater was once a habitable lake environment, detected organic molecules in ancient rock, and tracked seasonal methane variations. It is still driving today, climbing the slopes of Mount Sharp.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Landing: <span>August 6, 2012</span></span>
+          <span class="spec-tag">Power: <span>Radioisotope Thermoelectric Generator</span></span>
+          <span class="spec-tag">Distance Driven: <span>>30 km</span></span>
+          <span class="spec-tag">Status: <span>Active (2025)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">2013</div>
+        <div class="mission-info">
+          <div class="mission-name">MAVEN</div>
+          <div class="mission-type">ORBITER — ACTIVE</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-active">Active</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>The Mars Atmosphere and Volatile EvolutioN mission investigates how Mars lost its thick atmosphere billions of years ago. MAVEN found that solar wind strips about 100 grams of atmosphere per second from Mars — transforming a potentially warm, wet world into the frozen desert it is today. It also serves as a communications relay for surface rovers.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Launch: <span>November 18, 2013</span></span>
+          <span class="spec-tag">Finding: <span>~100g atmosphere lost per second</span></span>
+          <span class="spec-tag">Status: <span>Active relay + science (2025)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">2018</div>
+        <div class="mission-info">
+          <div class="mission-name">InSight</div>
+          <div class="mission-type">LANDER</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-success">Success</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>InSight studied Mars' interior — the first mission to do so. Its seismometer detected hundreds of Marsquakes, revealing Mars has a surprisingly large liquid core and a thicker crust than expected. The mission ended in December 2022 when dust accumulation reduced its solar power below operational thresholds.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Landing: <span>November 26, 2018</span></span>
+          <span class="spec-tag">Marsquakes Detected: <span>>1,300</span></span>
+          <span class="spec-tag">Largest Quake: <span>Magnitude 5</span></span>
+          <span class="spec-tag">End of Mission: <span>December 21, 2022</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-entry" onclick="toggleMission(this)">
+      <div class="mission-header">
+        <div class="mission-year">2020</div>
+        <div class="mission-info">
+          <div class="mission-name">Perseverance + Ingenuity</div>
+          <div class="mission-type">ROVER + HELICOPTER — ACTIVE</div>
+        </div>
+        <div style="display:flex;align-items:start;gap:1rem;padding-top:4px;">
+          <span class="mission-badge badge-active">Active</span>
+          <span class="expand-indicator">+</span>
+        </div>
+      </div>
+      <div class="mission-body">
+        <p>Perseverance is NASA's most technologically advanced rover, landing in Jezero Crater on February 18, 2021. It carries the MOXIE instrument which produced breathable oxygen from the Martian atmosphere, collected rock core samples for future Earth return, and deployed the Ingenuity helicopter. Ingenuity completed 72 flights before its blades were damaged in early 2024.</p>
+        <div class="mission-specs">
+          <span class="spec-tag">Landing: <span>February 18, 2021</span></span>
+          <span class="spec-tag">MOXIE: <span>Oxygen production confirmed</span></span>
+          <span class="spec-tag">Ingenuity Flights: <span>72 completed</span></span>
+          <span class="spec-tag">Samples Cached: <span>23+ cores</span></span>
+          <span class="spec-tag">Status: <span>Active (2025)</span></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section>
+  <div class="sec-header reveal">
+    <span class="sec-num">03</span>
+    <h2>FUTURE <span>MISSIONS</span></h2>
+  </div>
+
+  <div class="future-grid">
+    <div class="future-card reveal">
+      <div class="future-tag">Planned</div>
+      <div class="future-name">Mars Sample Return</div>
+      <p class="future-desc">A joint NASA/ESA campaign to retrieve the rock cores cached by Perseverance and return them to Earth. The most complex interplanetary mission ever attempted — involving a Sample Retrieval Lander, an Earth Return Orbiter, and the first rocket ever launched from another planet's surface.</p>
+      <div class="future-year">TARGET: 2030s</div>
+    </div>
+    <div class="future-card reveal">
+      <div class="future-tag">Concept</div>
+      <div class="future-name">Mars Ice Mapper</div>
+      <p class="future-desc">A proposed orbiter to precisely map subsurface water ice deposits accessible near the Martian surface — critical intelligence for selecting future human landing sites. Ice within 1–2 metres of the surface could be mined for water, rocket propellant, and radiation shielding.</p>
+      <div class="future-year">TBD</div>
+    </div>
+    <div class="future-card reveal full">
+      <div class="future-tag">Human Exploration</div>
+      <div class="future-name">Crewed Mars Mission</div>
+      <p class="future-desc">Both NASA and SpaceX have outlined plans for eventual human missions to Mars. NASA's Moon to Mars architecture envisions crewed Mars expeditions in the late 2030s to 2040s, building on experience from the Artemis lunar program. A crewed Mars mission would involve transit times of 6–9 months each way, surface stays of up to 500 days, and radiation exposure management across the entire mission.</p>
+      <div class="future-year">TARGET: LATE 2030s</div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ── QUIZ ── -->
+<section class="quiz-section">
+  <div class="sec-header reveal">
+    <span class="sec-num">04</span>
+    <h2>MISSION <span>DEBRIEF</span></h2>
+  </div>
+
+  <div class="quiz-wrapper">
+
+    <div class="quiz-tabs">
+      <button class="quiz-tab active" onclick="switchTab('quiz')">▶ Quiz</button>
+      <button class="quiz-tab" onclick="switchTab('history')" id="history-tab">⌛ Score History <span id="history-count"></span></button>
+    </div>
+
+    <!-- Quiz Panel -->
+    <div class="quiz-tab-panel active" id="panel-quiz">
+
+      <div class="quiz-hud reveal">
+        <div class="quiz-hud-item">
+          <span class="quiz-hud-val" id="hud-q">1/15</span>
+          <span class="quiz-hud-key">Question</span>
+        </div>
+        <div class="quiz-hud-item">
+          <span class="quiz-hud-val correct" id="hud-correct">0</span>
+          <span class="quiz-hud-key">Correct</span>
+        </div>
+        <div class="quiz-hud-item">
+          <span class="quiz-hud-val wrong" id="hud-wrong">0</span>
+          <span class="quiz-hud-key">Wrong</span>
+        </div>
+        <div class="quiz-hud-item">
+          <span class="quiz-hud-val" id="hud-pct">0%</span>
+          <span class="quiz-hud-key">Score</span>
+        </div>
+      </div>
+
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="quiz-progress" style="width:0%"></div>
+      </div>
+
+      <div id="quiz-questions"></div>
+
+      <div class="quiz-results" id="quiz-results">
+        <div class="results-score" id="results-score">0/15</div>
+        <div class="results-label">Final Score</div>
+        <div class="results-msg" id="results-msg"></div>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;">
+          <button class="quiz-restart-btn" onclick="restartQuiz()">↺ RESTART DEBRIEF</button>
+          <button class="quiz-restart-btn" style="background:var(--blue);" onclick="switchTab('history')">⌛ VIEW SCORE HISTORY</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- History Panel -->
+    <div class="quiz-tab-panel" id="panel-history">
+
+      <div id="history-summary-wrap" style="display:none;">
+        <div class="history-summary">
+          <div class="history-stat">
+            <span class="history-stat-val" id="hist-attempts">0</span>
+            <span class="history-stat-key">Attempts</span>
+          </div>
+          <div class="history-stat">
+            <span class="history-stat-val" id="hist-best">—</span>
+            <span class="history-stat-key">Best Score</span>
+          </div>
+          <div class="history-stat">
+            <span class="history-stat-val" id="hist-avg">—</span>
+            <span class="history-stat-key">Avg Score</span>
+          </div>
+          <div class="history-stat">
+            <span class="history-stat-val" id="hist-best-pct" style="color:var(--green);">—</span>
+            <span class="history-stat-key">Best %</span>
+          </div>
+        </div>
+
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date &amp; Time</th>
+              <th>Score</th>
+              <th>Percentage</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody"></tbody>
+        </table>
+
+        <button class="history-clear-btn" onclick="clearHistory()">✕ CLEAR ALL RECORDS</button>
+      </div>
+
+      <div id="history-empty-wrap" class="history-empty">
+        <div style="font-size:28px;margin-bottom:1rem;opacity:0.3;">◎</div>
+        NO MISSION RECORDS LOGGED YET.<br>
+        <span style="color:var(--blue);cursor:pointer;" onclick="switchTab('quiz')">COMPLETE A DEBRIEF</span> TO BEGIN TRACKING.
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">
+    DATA SOURCE: NASA/JPL<br>
+    LAST UPDATED: 2025<br>
+    CLASSIFICATION: PUBLIC
+  </div>
+  <div class="footer-mid">NASA <span>MARS</span> MISSIONS</div>
+  <div class="footer-right">
+    ALL MISSION DATA VERIFIED<br>
+    AGAINST NASA OFFICIAL RECORDS<br>
+    JPL.NASA.GOV
+  </div>
+</footer>
+
+<script>
+// ── MISSION ACCORDION ──
+function toggleMission(el) {
+  const body = el.querySelector('.mission-body');
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.mission-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.mission-entry').forEach(e => e.classList.remove('open'));
+  if (!isOpen) {
+    body.classList.add('open');
+    el.classList.add('open');
+  }
+}
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── TABS ──
+function switchTab(name) {
+  document.querySelectorAll('.quiz-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.quiz-tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  const tabs = document.querySelectorAll('.quiz-tab');
+  if (name === 'quiz') tabs[0].classList.add('active');
+  else { tabs[1].classList.add('active'); renderHistory(); }
+}
+
+// ── SCORE HISTORY (in-memory) ──
+const scoreHistory = [];
+
+function saveScore(correctCount, total) {
+  const now = new Date();
+  scoreHistory.push({
+    date: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    time: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+    score: correctCount,
+    total
+  });
+  updateHistoryTab();
+}
+
+function updateHistoryTab() {
+  const count = scoreHistory.length;
+  document.getElementById('history-count').textContent = count > 0 ? `(${count})` : '';
+}
+
+function getGrade(pct) {
+  if (pct === 100) return { label: 'S', cls: 'grade-s' };
+  if (pct >= 80)   return { label: 'A', cls: 'grade-a' };
+  if (pct >= 60)   return { label: 'B', cls: 'grade-b' };
+  if (pct >= 40)   return { label: 'C', cls: 'grade-c' };
+  return { label: 'F', cls: 'grade-f' };
+}
+
+function getBarColor(pct) {
+  if (pct === 100) return 'var(--green)';
+  if (pct >= 80)   return 'var(--blue)';
+  if (pct >= 60)   return 'var(--text)';
+  if (pct >= 40)   return 'var(--orange)';
+  return 'var(--red)';
+}
+
+function renderHistory() {
+  const emptyWrap = document.getElementById('history-empty-wrap');
+  const summaryWrap = document.getElementById('history-summary-wrap');
+  if (scoreHistory.length === 0) {
+    emptyWrap.style.display = 'block'; summaryWrap.style.display = 'none'; return;
+  }
+  emptyWrap.style.display = 'none'; summaryWrap.style.display = 'block';
+  const scores = scoreHistory.map(r => r.score);
+  const best = Math.max(...scores);
+  const avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+  const bestTotal = scoreHistory.find(r => r.score === best).total;
+  const bestPct = Math.round((best / bestTotal) * 100);
+  document.getElementById('hist-attempts').textContent = scoreHistory.length;
+  document.getElementById('hist-best').textContent = `${best}/${bestTotal}`;
+  document.getElementById('hist-avg').textContent = avg;
+  document.getElementById('hist-best-pct').textContent = `${bestPct}%`;
+  const tbody = document.getElementById('history-tbody');
+  tbody.innerHTML = '';
+  [...scoreHistory].reverse().forEach((r, i) => {
+    const pct = Math.round((r.score / r.total) * 100);
+    const grade = getGrade(pct);
+    const barColor = getBarColor(pct);
+    const attempt = scoreHistory.length - i;
+    const isBest = r.score === best;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--text-dim);">#${attempt}${isBest ? ' <span style="color:var(--green);font-size:10px;">BEST</span>' : ''}</td>
+      <td>${r.date} · ${r.time}</td>
+      <td class="score-val">${r.score}/${r.total}</td>
+      <td>
+        <div class="pct-bar-wrap">
+          <div class="pct-bar"><div class="pct-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+          <span style="color:${barColor};font-size:12px;min-width:36px;">${pct}%</span>
+        </div>
+      </td>
+      <td class="${grade.cls}" style="font-size:18px;font-weight:700;">${grade.label}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function clearHistory() {
+  if (!confirm('Clear all score records?')) return;
+  scoreHistory.length = 0;
+  updateHistoryTab();
+  renderHistory();
+}
+
+// ─────────────────────────────────────────────
+// ── QUESTION BANK (30 questions) ──
+// Each question: { q, answers: [{text, correct}], explanation }
+// ─────────────────────────────────────────────
+const QUESTION_BANK = [
+  {
+    q: "Which was the first rover ever deployed on the surface of Mars?",
+    answers: [
+      { text: "Sojourner", correct: true },
+      { text: "Spirit", correct: false },
+      { text: "Opportunity", correct: false },
+      { text: "Curiosity", correct: false }
+    ],
+    explanation: "Sojourner was deployed from Mars Pathfinder on July 5, 1997 — the first rover to operate on another planet."
+  },
+  {
+    q: "What caused the loss of the Mars Climate Orbiter in 1999?",
+    answers: [
+      { text: "A metric/imperial unit mismatch in thruster data", correct: true },
+      { text: "A solar flare knocked out its electronics", correct: false },
+      { text: "It ran out of fuel during orbital insertion", correct: false },
+      { text: "A software bug caused it to miss Mars entirely", correct: false }
+    ],
+    explanation: "The Mars Climate Orbiter was lost because one team used pound-force seconds while another used newton-seconds — a $327M lesson in unit consistency."
+  },
+  {
+    q: "How many photographs did Mariner 4 return from its 1964–65 Mars flyby?",
+    answers: [
+      { text: "21", correct: true },
+      { text: "7", correct: false },
+      { text: "201", correct: false },
+      { text: "47", correct: false }
+    ],
+    explanation: "Mariner 4 returned exactly 21 images, transmitted over 8.5 hours at a painstaking 8.3 bits per second."
+  },
+  {
+    q: "In which crater did the Perseverance rover land in February 2021?",
+    answers: [
+      { text: "Jezero Crater", correct: true },
+      { text: "Gale Crater", correct: false },
+      { text: "Hellas Planitia", correct: false },
+      { text: "Victoria Crater", correct: false }
+    ],
+    explanation: "Jezero Crater is an ancient lake bed fed by river channels — a prime location to search for fossilised microbial life."
+  },
+  {
+    q: "What was the originally planned mission duration for Spirit and Opportunity?",
+    answers: [
+      { text: "90 Martian days (sols)", correct: true },
+      { text: "1 Earth year", correct: false },
+      { text: "180 sols", correct: false },
+      { text: "30 sols", correct: false }
+    ],
+    explanation: "Both Spirit and Opportunity were designed for 90 Martian days. Opportunity lasted 5,498 sols — over 60× longer than planned."
+  },
+  {
+    q: "What percentage of the Martian surface did Mariner 9 map?",
+    answers: [
+      { text: "85%", correct: true },
+      { text: "40%", correct: false },
+      { text: "60%", correct: false },
+      { text: "100%", correct: false }
+    ],
+    explanation: "Mariner 9 mapped 85% of the Martian surface after waiting for a planet-wide dust storm to clear, completely transforming our knowledge of Mars."
+  },
+  {
+    q: "What did the MOXIE instrument on Perseverance accomplish?",
+    answers: [
+      { text: "Produced breathable oxygen from the Martian atmosphere", correct: true },
+      { text: "Drilled the deepest hole ever made on Mars", correct: false },
+      { text: "Detected subsurface liquid water", correct: false },
+      { text: "Measured the first Marsquake", correct: false }
+    ],
+    explanation: "MOXIE (Mars Oxygen In-Situ Resource Utilization Experiment) produced oxygen from CO₂ — a key technology for future human missions."
+  },
+  {
+    q: "On what date did Viking 1 land on Mars?",
+    answers: [
+      { text: "July 20, 1976", correct: true },
+      { text: "September 3, 1976", correct: false },
+      { text: "April 4, 1975", correct: false },
+      { text: "November 12, 1977", correct: false }
+    ],
+    explanation: "Viking 1 landed on July 20, 1976 — the 7th anniversary of Apollo 11 — becoming the first lander to successfully operate on Mars."
+  },
+  {
+    q: "Why did InSight's mission end in December 2022?",
+    answers: [
+      { text: "Dust accumulation reduced solar power below operational levels", correct: true },
+      { text: "A Marsquake toppled its antenna", correct: false },
+      { text: "It was struck by a meteorite", correct: false },
+      { text: "Its seismometer failed permanently", correct: false }
+    ],
+    explanation: "Accumulating dust on InSight's solar panels gradually reduced power until the spacecraft could no longer sustain operations."
+  },
+  {
+    q: "How far did Opportunity drive across the Martian surface?",
+    answers: [
+      { text: "45.16 km", correct: true },
+      { text: "7.73 km", correct: false },
+      { text: "12.4 km", correct: false },
+      { text: "30.6 km", correct: false }
+    ],
+    explanation: "Opportunity drove 45.16 km — farther than any rover on another world at the time, over 15 extraordinary years of operations."
+  },
+  {
+    q: "What did the Phoenix lander directly confirm in 2008?",
+    answers: [
+      { text: "The presence of water ice just below the Martian surface", correct: true },
+      { text: "Active volcanic vents in the arctic region", correct: false },
+      { text: "Methane gas being released from the ground", correct: false },
+      { text: "Evidence of fossilised microbial life in soil samples", correct: false }
+    ],
+    explanation: "Phoenix watched water ice sublimate directly in Martian sunlight after excavating it from centimetres below the surface — the first direct confirmation."
+  },
+  {
+    q: "Which NASA Mars spacecraft has been operating the longest?",
+    answers: [
+      { text: "Mars Odyssey", correct: true },
+      { text: "Mars Reconnaissance Orbiter", correct: false },
+      { text: "MAVEN", correct: false },
+      { text: "Mars Global Surveyor", correct: false }
+    ],
+    explanation: "Mars Odyssey has been in continuous operation since 2001 — the longest-running spacecraft ever sent to Mars."
+  },
+  {
+    q: "What does MAVEN study at Mars?",
+    answers: [
+      { text: "How Mars lost its atmosphere over billions of years", correct: true },
+      { text: "Subsurface geology and seismic activity", correct: false },
+      { text: "The chemical composition of Martian rocks", correct: false },
+      { text: "Weather patterns and dust storm formation", correct: false }
+    ],
+    explanation: "MAVEN measured ~100 grams of atmosphere stripped away per second by solar wind, explaining how Mars lost its early habitable climate."
+  },
+  {
+    q: "How many flights did the Ingenuity helicopter complete before its mission ended?",
+    answers: [
+      { text: "72", correct: true },
+      { text: "5", correct: false },
+      { text: "28", correct: false },
+      { text: "51", correct: false }
+    ],
+    explanation: "Ingenuity was designed for 5 flights. It completed 72 before its rotor blades were damaged during a landing in January 2024."
+  },
+  {
+    q: "What major discoveries did Mariner 9 make after its dust storm wait?",
+    answers: [
+      { text: "Olympus Mons and Valles Marineris", correct: true },
+      { text: "The polar ice caps and subsurface ocean", correct: false },
+      { text: "Two new Martian moons", correct: false },
+      { text: "Evidence of current microbial life", correct: false }
+    ],
+    explanation: "Mariner 9 discovered Olympus Mons (the solar system's largest volcano) and Valles Marineris (a canyon 4,000 km long) after the dust storm cleared."
+  },
+  {
+    q: "What landing system did Mars Pathfinder use to touch down in 1997?",
+    answers: [
+      { text: "Airbags", correct: true },
+      { text: "Retrorocket hover and legs", correct: false },
+      { text: "Sky crane", correct: false },
+      { text: "Parachute and cushioned platform", correct: false }
+    ],
+    explanation: "Mars Pathfinder pioneered the airbag landing system — bouncing across the surface before deflating, paving the way for future rovers."
+  },
+  {
+    q: "What landing technique did Curiosity use to reach the Martian surface?",
+    answers: [
+      { text: "Sky crane — a hovering rocket stage that lowered it on cables", correct: true },
+      { text: "Airbag bounce landing", correct: false },
+      { text: "Direct retrorocket legs like the Viking landers", correct: false },
+      { text: "Supersonic parachute alone", correct: false }
+    ],
+    explanation: "Curiosity's sky crane system — a rocket-powered hovering stage that lowered the rover on cables — was revolutionary and was reused for Perseverance."
+  },
+  {
+    q: "What chemical did Phoenix find in Martian soil that could be both toxic and an energy source for microbes?",
+    answers: [
+      { text: "Perchlorate salts", correct: true },
+      { text: "Methane", correct: false },
+      { text: "Sulphur dioxide", correct: false },
+      { text: "Ammonia", correct: false }
+    ],
+    explanation: "Phoenix discovered perchlorate salts — compounds that could be toxic to Earth-like life but also serve as an energy source for certain extremophile microbes."
+  },
+  {
+    q: "How many Marsquakes did InSight detect during its mission?",
+    answers: [
+      { text: "More than 1,300", correct: true },
+      { text: "Around 50", correct: false },
+      { text: "Fewer than 10", correct: false },
+      { text: "Exactly 500", correct: false }
+    ],
+    explanation: "InSight's SEIS seismometer detected over 1,300 Marsquakes, revealing Mars is far more seismically active than previously thought."
+  },
+  {
+    q: "What did Spirit's discovery of silica-rich soil at Mars suggest?",
+    answers: [
+      { text: "Past hydrothermal activity involving hot water or steam", correct: true },
+      { text: "Evidence of ancient glaciers", correct: false },
+      { text: "A recent volcanic eruption in the area", correct: false },
+      { text: "Wind erosion from a long-past dust storm", correct: false }
+    ],
+    explanation: "Spirit found silica-rich soil — a mineral typically formed in hot springs or steam vents — indicating past hydrothermal activity where life could have thrived."
+  },
+  {
+    q: "What type of power source does Curiosity use?",
+    answers: [
+      { text: "Radioisotope Thermoelectric Generator (nuclear)", correct: true },
+      { text: "Solar panels", correct: false },
+      { text: "Fuel cells", correct: false },
+      { text: "Lithium-ion batteries charged by wind", correct: false }
+    ],
+    explanation: "Curiosity uses an RTG — a nuclear power source using plutonium-238 decay heat — allowing it to operate day and night regardless of dust on solar panels."
+  },
+  {
+    q: "How much data has Mars Reconnaissance Orbiter returned compared to all previous interplanetary missions?",
+    answers: [
+      { text: "More than all previous interplanetary missions combined", correct: true },
+      { text: "About the same as Mars Global Surveyor alone", correct: false },
+      { text: "Roughly half of all Mars mission data combined", correct: false },
+      { text: "Ten times the data of the Viking missions", correct: false }
+    ],
+    explanation: "MRO has returned over 450 terabits of data — more than all previous interplanetary missions combined, thanks to its powerful telecommunications systems."
+  },
+  {
+    q: "What was the resolution capability of MRO's HiRISE camera from orbit?",
+    answers: [
+      { text: "~25 cm per pixel — fine enough to photograph rovers", correct: true },
+      { text: "~1 metre per pixel", correct: false },
+      { text: "~10 metres per pixel", correct: false },
+      { text: "~5 cm per pixel", correct: false }
+    ],
+    explanation: "HiRISE can resolve objects as small as 25 cm from 300 km altitude — it has photographed both Curiosity and Perseverance from orbit."
+  },
+  {
+    q: "What significant atmospheric finding did MAVEN confirm about Mars?",
+    answers: [
+      { text: "Solar wind strips ~100 grams of atmosphere per second from Mars", correct: true },
+      { text: "Mars is actively gaining atmosphere from volcanic outgassing", correct: false },
+      { text: "The atmosphere is primarily methane, not CO₂", correct: false },
+      { text: "Mars has a strong enough magnetic field to protect its atmosphere", correct: false }
+    ],
+    explanation: "MAVEN found that solar wind erosion strips roughly 100 grams of Martian atmosphere every second — the process that turned Mars from a wet world into a desert."
+  },
+  {
+    q: "What was Opportunity's most significant geological discovery?",
+    answers: [
+      { text: "Hematite 'blueberries' formed in ancient standing water", correct: true },
+      { text: "Active geysers erupting beneath its wheels", correct: false },
+      { text: "A fossilised microorganism in bedrock", correct: false },
+      { text: "A buried glacier at the equator", correct: false }
+    ],
+    explanation: "Opportunity found hematite concretions nicknamed 'blueberries' — spherical formations that only form in the presence of persistent liquid water."
+  },
+  {
+    q: "How much did NASA's Mars Observer mission cost before contact was lost?",
+    answers: [
+      { text: "$813 million", correct: true },
+      { text: "$265 million", correct: false },
+      { text: "$327 million", correct: false },
+      { text: "$1.2 billion", correct: false }
+    ],
+    explanation: "Mars Observer cost $813 million — its loss in 1993 prompted NASA to shift toward the 'faster, better, cheaper' mission design philosophy of the 1990s."
+  },
+  {
+    q: "Where did the Curiosity rover land on Mars?",
+    answers: [
+      { text: "Gale Crater", correct: true },
+      { text: "Jezero Crater", correct: false },
+      { text: "Hellas Basin", correct: false },
+      { text: "Aram Chaos", correct: false }
+    ],
+    explanation: "Curiosity landed in Gale Crater on August 6, 2012, and has been climbing the layers of Mount Sharp in the crater's centre ever since."
+  },
+  {
+    q: "What is the primary scientific goal of the Mars Sample Return mission?",
+    answers: [
+      { text: "Return Perseverance's cached rock cores to Earth for laboratory analysis", correct: true },
+      { text: "Deploy a new rover capable of drilling 10 metres into the surface", correct: false },
+      { text: "Land humans near a known ice deposit", correct: false },
+      { text: "Retrieve the Ingenuity helicopter for engineering analysis", correct: false }
+    ],
+    explanation: "Mars Sample Return will collect the 23+ cores cached by Perseverance in Jezero Crater and bring them to Earth — our best chance to detect ancient Martian life."
+  },
+  {
+    q: "Which substance did Mariner 6 and 7 confirm exists at Mars' south polar cap?",
+    answers: [
+      { text: "Carbon dioxide (CO₂) ice", correct: true },
+      { text: "Water ice", correct: false },
+      { text: "Frozen methane", correct: false },
+      { text: "Dry rock with no ice at all", correct: false }
+    ],
+    explanation: "Mariner 6 and 7 confirmed that Mars' south polar cap contains CO₂ ice — dry ice — rather than water ice as some had hoped."
+  },
+  {
+    q: "What planet-changing event did Mariner 9 have to wait out when it arrived at Mars in 1971?",
+    answers: [
+      { text: "A planet-wide dust storm that obscured the entire surface", correct: true },
+      { text: "A solar conjunction blocking communications with Earth", correct: false },
+      { text: "A catastrophic volcanic eruption at Olympus Mons", correct: false },
+      { text: "A rare alignment of Phobos and Deimos blocking its orbital path", correct: false }
+    ],
+    explanation: "Mariner 9 arrived to find Mars completely hidden beneath a global dust storm. It patiently waited in orbit until the storm cleared, then began its historic mapping campaign."
+  }
+];
+
+// ─────────────────────────────────────────────
+// ── QUIZ ENGINE ──
+// ─────────────────────────────────────────────
+const QUESTIONS_PER_GAME = 15;
+const LETTERS = ['A', 'B', 'C', 'D'];
+
+let activeQuestions = [];   // shuffled subset for this game
+let current = 0;
+let correct = 0;
+let wrong = 0;
+
+const feedbackMessages = {
+  correct: [
+    "Confirmed. Mission data verified.",
+    "Affirmative. Signal received.",
+    "Correct. Telemetry matches.",
+    "Positive lock. Well done.",
+    "Copy that. Correct."
+  ],
+  wrong: [
+    "Negative. Recheck mission logs.",
+    "Signal lost. That's incorrect.",
+    "Incorrect trajectory. Review the archive.",
+    "Mission abort. Wrong answer.",
+    "Data mismatch. Try the mission log."
+  ]
+};
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuiz() {
+  // Pick 15 random questions from the bank
+  activeQuestions = shuffle(QUESTION_BANK).slice(0, QUESTIONS_PER_GAME);
+
+  const container = document.getElementById('quiz-questions');
+  container.innerHTML = '';
+  container.style.display = '';
+
+  activeQuestions.forEach((q, qi) => {
+    // Shuffle answer order for this question
+    const shuffledAnswers = shuffle(q.answers);
+
+    const block = document.createElement('div');
+    block.className = 'question-block' + (qi === 0 ? ' active' : '');
+    block.dataset.qIndex = qi;
+
+    const answersHTML = shuffledAnswers.map((ans, ai) => {
+      const escapedText = ans.text.replace(/'/g, "\\'");
+      return `
+        <button
+          class="answer-btn"
+          data-correct="${ans.correct}"
+          onclick="answer(this, ${qi})"
+        >
+          <span class="ans-letter">${LETTERS[ai]}</span>${ans.text}
+        </button>`;
+    }).join('');
+
+    block.innerHTML = `
+      <div class="question-num">QUESTION ${qi + 1} / ${QUESTIONS_PER_GAME}</div>
+      <div class="question-text">${q.q}</div>
+      <div class="answers-grid">${answersHTML}</div>
+      <div class="feedback-box"></div>
+      <button class="quiz-next-btn" onclick="nextQuestion()">
+        ${qi < QUESTIONS_PER_GAME - 1 ? 'NEXT QUESTION →' : 'VIEW RESULTS →'}
+      </button>
+    `;
+
+    container.appendChild(block);
+  });
+}
+
+function answer(btn, qIndex) {
+  // Guard: if already answered, ignore
+  const block = btn.closest('.question-block');
+  if (block.querySelector('.answer-btn:disabled')) return;
+
+  const isCorrect = btn.dataset.correct === 'true';
+  const allBtns = block.querySelectorAll('.answer-btn');
+  const fb = block.querySelector('.feedback-box');
+  const nextBtn = block.querySelector('.quiz-next-btn');
+
+  // Disable all buttons
+  allBtns.forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    btn.classList.add('correct-ans');
+    correct++;
+    const msg = feedbackMessages.correct[Math.floor(Math.random() * feedbackMessages.correct.length)];
+    fb.textContent = `✓ ${msg} — ${activeQuestions[qIndex].explanation}`;
+    fb.className = 'feedback-box show-correct';
+  } else {
+    btn.classList.add('wrong-ans');
+    wrong++;
+    // Highlight the correct answer using data-correct attribute — no toString() hack
+    allBtns.forEach(b => {
+      if (b.dataset.correct === 'true') b.classList.add('correct-ans');
+    });
+    const msg = feedbackMessages.wrong[Math.floor(Math.random() * feedbackMessages.wrong.length)];
+    fb.textContent = `✗ ${msg} — ${activeQuestions[qIndex].explanation}`;
+    fb.className = 'feedback-box show-wrong';
+  }
+
+  updateHud();
+  nextBtn.classList.add('visible');
+}
+
+function updateHud() {
+  const answered = correct + wrong;
+  document.getElementById('hud-q').textContent = `${Math.min(answered + 1, QUESTIONS_PER_GAME)}/${QUESTIONS_PER_GAME}`;
+  document.getElementById('hud-correct').textContent = correct;
+  document.getElementById('hud-wrong').textContent = wrong;
+  const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+  document.getElementById('hud-pct').textContent = `${pct}%`;
+  document.getElementById('quiz-progress').style.width = `${(answered / QUESTIONS_PER_GAME) * 100}%`;
+}
+
+function nextQuestion() {
+  const blocks = document.querySelectorAll('.question-block');
+  blocks[current].classList.remove('active');
+  current++;
+
+  if (current >= QUESTIONS_PER_GAME) {
+    showResults();
+  } else {
+    blocks[current].classList.add('active');
+    document.getElementById('hud-q').textContent = `${current + 1}/${QUESTIONS_PER_GAME}`;
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-questions').style.display = 'none';
+  const resultsEl = document.getElementById('quiz-results');
+  resultsEl.classList.add('show');
+  document.getElementById('results-score').textContent = `${correct}/${QUESTIONS_PER_GAME}`;
+
+  let msg;
+  if (correct === QUESTIONS_PER_GAME) msg = "Perfect score. You know Mars better than most mission specialists.";
+  else if (correct >= 12) msg = "Outstanding. You've clearly studied the mission archive closely.";
+  else if (correct >= 9)  msg = "Solid performance. A few gaps in the logs, but mostly on target.";
+  else if (correct >= 6)  msg = "Passing grade. We recommend a second pass through the mission log.";
+  else                    msg = "Report for retraining. The archive is always open.";
+
+  document.getElementById('results-msg').textContent = msg;
+  document.getElementById('hud-q').textContent = `${QUESTIONS_PER_GAME}/${QUESTIONS_PER_GAME}`;
+  document.getElementById('quiz-progress').style.width = '100%';
+  saveScore(correct, QUESTIONS_PER_GAME);
+}
+
+function restartQuiz() {
+  current = 0; correct = 0; wrong = 0;
+  document.getElementById('quiz-results').classList.remove('show');
+  document.getElementById('hud-q').textContent = `1/${QUESTIONS_PER_GAME}`;
+  document.getElementById('hud-correct').textContent = '0';
+  document.getElementById('hud-wrong').textContent = '0';
+  document.getElementById('hud-pct').textContent = '0%';
+  document.getElementById('quiz-progress').style.width = '0%';
+  buildQuiz();
+}
+
+// Boot the quiz on page load
+buildQuiz();
+</script>
+</body>
+</html>
